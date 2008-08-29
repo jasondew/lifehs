@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--Generated with glade3 3.4.5 on Wed Aug 27 20:15:55 2008 -->
+<glade-interface>
+  <requires lib="canvas"/>
+  <widget class="GtkWindow" id="window">
+    <child>
+      <widget class="GnomeCanvas" id="canvas">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="aa">True</property>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>
