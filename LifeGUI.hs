@@ -1,4 +1,5 @@
 import Graphics.UI.Gtk
+import Graphics.UI.Gtk.Glade
 import Graphics.Rendering.Cairo
 import Control.Monad.Trans ( liftIO )
 import Control.Concurrent (threadDelay)
@@ -25,10 +26,12 @@ run act = do
   dia <- dialogNew
   dialogAddButton dia stockClose ResponseClose
   contain <- dialogGetUpper dia
+
   canvas <- drawingAreaNew
   canvas `onSizeRequest` return (Requisition (fromIntegral width) (fromIntegral height))
   canvas `onExpose` updateCanvas canvas act
   boxPackStartDefaults contain canvas
+
   widgetShow canvas
   dialogRun dia
   widgetDestroy dia
@@ -94,6 +97,12 @@ drawStr_ txt = do
     layoutText ctxt txt
   showLayout lay
 
+updateCanvas :: DrawingArea -> Render () -> Event -> IO Bool
+updateCanvas canvas act (Expose {}) = do win <- widgetGetDrawWindow canvas
+                                         renderWithDrawable win act
+                                         return True
+updateCanvas canvas act _           = return False
+
 
 
 drawBoard :: Board -> Render ()
@@ -146,7 +155,19 @@ drawBoard board = do
 glider :: Board
 glider = [(4,2), (2,3), (4,3), (3,4), (4,4)]
 
-main = run init where
-  init = do drawBoard glider
-            drawBoard (nextGeneration glider)
-        
+main = do initGUI
+          Just xml <- xmlNew "LifeGUI.glade"
+
+          window <- xmlGetWidget xml castToWindow "window"
+          onDestroy window mainQuit
+
+          canvas <- xmlGetWidget xml castToDrawingArea "drawingArea"
+          canvas `onSizeRequest` return (Requisition (fromIntegral width) (fromIntegral height))
+          canvas `onExpose` updateCanvas canvas (drawBoard glider)
+
+          stepButton <- xmlGetWidget xml castToButton "button1"
+          onClicked stepButton $ do (updateCanvas canvas (drawBoard (nextGeneration glider)) (Expose {}))
+                                    return ()
+
+          widgetShowAll window
+          mainGUI

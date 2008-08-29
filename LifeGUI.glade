@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--Generated with glade3 3.4.5 on Thu Aug 28 22:10:06 2008 -->
+<glade-interface>
+  <widget class="GtkWindow" id="window">
+    <child>
+      <widget class="GtkVPaned" id="vpaned1">
+        <property name="height_request">550</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <child>
+          <widget class="GtkDrawingArea" id="drawingArea">
+            <property name="width_request">500</property>
+            <property name="height_request">500</property>
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="resize">False</property>
+            <property name="shrink">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkButton" id="button1">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="label" translatable="yes">Step</property>
+            <property name="response_id">0</property>
+          </widget>
+          <packing>
+            <property name="resize">True</property>
+            <property name="shrink">True</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>
